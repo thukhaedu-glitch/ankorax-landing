@@ -13,6 +13,7 @@ export const STRINGS = {
     trust: 'BUILT FOR FREELANCERS, AGENCIES & GROWING SHOPS',
     features: {
       'head-pill': 'What you get',
+      learnMore: 'Learn more',
       head: 'Everything the back office needs',
       sub: 'One connected system, from the first quote to the final report.',
       items: [
@@ -57,6 +58,7 @@ export const STRINGS = {
     trust: 'FREELANCER၊ AGENCY နှင့် လုပ်ငန်းငယ်များအတွက်',
     features: {
       'head-pill': 'ရရှိမယ့်အရာ',
+      learnMore: 'အသေးစိတ်ကြည့်',
       head: 'Back office လိုအပ်သမျှ အားလုံး',
       sub: 'ပထမ quote ကနေ နောက်ဆုံး report အထိ ချိတ်ဆက်ထားသော system တစ်ခု။',
       items: [
@@ -101,6 +103,7 @@ export const STRINGS = {
     trust: 'สำหรับฟรีแลนซ์ เอเจนซี และธุรกิจที่กำลังเติบโต',
     features: {
       'head-pill': 'สิ่งที่คุณจะได้รับ',
+      learnMore: 'เรียนรู้เพิ่มเติม',
       head: 'ทุกอย่างที่หลังบ้านต้องการ',
       sub: 'ระบบเดียวที่เชื่อมต่อกัน ตั้งแต่ใบเสนอราคาแรกจนถึงรายงานสุดท้าย',
       items: [
