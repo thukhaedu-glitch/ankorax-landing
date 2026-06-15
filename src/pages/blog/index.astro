@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content'
+import BaseHead from '../../components/BaseHead.astro'
+import Nav from '../../components/Nav.astro'
+import Footer from '../../components/Footer.astro'
+import '../../styles/global.css'
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime())
+
+const fmtDate = (d) => new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title="Blog — AnkoraX | Invoicing & Small Business Finance"
+      description="Practical guides on invoicing, quotations, bookkeeping, and running the finances of a small business. Written by the AnkoraX team."
+    />
+  </head>
+  <body>
+    <Nav />
+    <main class="blog-list">
+      <div class="wrap">
+        <span class="eyebrow">The AnkoraX Blog</span>
+        <h1 class="blog-h1">Guides for getting paid and keeping the books.</h1>
+        <p class="blog-intro">Practical, no-fluff articles on invoicing, finance, and running a small business.</p>
+
+        {posts.length === 0 ? (
+          <p class="blog-empty">Articles are on the way. Check back soon.</p>
+        ) : (
+          <div class="blog-grid">
+            {posts.map((post) => (
+              <a href={`/blog/${post.slug}/`} class="blog-card">
+                <div class="blog-card-tags">
+                  {post.data.tags.slice(0, 2).map((t) => <span class="blog-card-tag">{t}</span>)}
+                </div>
+                <h2 class="blog-card-title">{post.data.title}</h2>
+                <p class="blog-card-desc">{post.data.description}</p>
+                <div class="blog-card-meta">
+                  <time datetime={new Date(post.data.pubDate).toISOString()}>{fmtDate(post.data.pubDate)}</time>
+                  <span class="blog-card-arrow">Read →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </main>
+    <Footer />
+
+    <style>
+      .blog-list { padding-top: 130px; padding-bottom: 90px; min-height: 70vh; }
+      .blog-h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(32px, 5vw, 52px); line-height: 1.08; letter-spacing: -0.02em; color: var(--ink); margin-top: 16px; max-width: 640px; }
+      .blog-intro { font-size: 18px; color: var(--text-2); margin-top: 16px; max-width: 520px; }
+      .blog-empty { font-family: var(--font-mono); color: var(--text-3); margin-top: 48px; }
+      .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 52px; }
+      .blog-card { border: 1px solid var(--line-strong); border-radius: 14px; background: var(--white); padding: 26px; display: flex; flex-direction: column; transition: all 0.2s ease; }
+      .blog-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -28px rgba(20,33,61,0.35); border-color: var(--ink); }
+      .blog-card-tags { display: flex; gap: 7px; margin-bottom: 14px; }
+      .blog-card-tag { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+      .blog-card-title { font-family: var(--font-display); font-weight: 600; font-size: 21px; line-height: 1.25; color: var(--ink); margin-bottom: 10px; }
+      .blog-card-desc { font-size: 14.5px; line-height: 1.6; color: var(--text-2); flex: 1; }
+      .blog-card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 13px; color: var(--text-3); }
+      .blog-card-arrow { font-family: var(--font-mono); font-weight: 500; color: var(--accent); }
+    </style>
+  </body>
+</html>
