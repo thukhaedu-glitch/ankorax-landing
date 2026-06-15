@@ -1,0 +1,32 @@
+---
+const APP_URL = 'https://app.ankorax.com'
+const TEAM_URL = 'https://team.ankorax.com'
+// home links point to homepage anchors
+const home = '/'
+---
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href={home} class="brand">
+      <img src="/ankora_x_logo_2.png" alt="AnkoraX logo" width="32" height="32" style="border-radius:8px" />
+      <span class="brand-name">AnkoraX</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href={`${home}#features`} class="navlink">Features</a>
+        <a href={`${home}#pricing`} class="navlink">Pricing</a>
+        <a href="/blog" class="navlink">Blog</a>
+        <a href={TEAM_URL} class="navlink">For Teams</a>
+      </div>
+      <div class="nav-cta">
+        <a href={`${APP_URL}/login`} class="nav-login">Log in</a>
+        <a href={`${APP_URL}/signup`} class="btn btn-primary nav-start">Start free</a>
+      </div>
+    </div>
+  </div>
+</nav>
+<script>
+  const nav = document.getElementById('nav')
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20)
+  window.addEventListener('scroll', onScroll)
+  onScroll()
+</script>
