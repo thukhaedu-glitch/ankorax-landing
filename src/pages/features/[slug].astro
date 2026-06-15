@@ -1,0 +1,103 @@
+---
+import BaseHead from '../../components/BaseHead.astro'
+import Nav from '../../components/Nav.astro'
+import Footer from '../../components/Footer.astro'
+import { FEATURES } from '../../features.js'
+import { STRINGS } from '../../strings.js'
+import '../../styles/global.css'
+
+export function getStaticPaths() {
+  return FEATURES.map((f) => ({ params: { slug: f.slug }, props: { feature: f } }))
+}
+
+const { feature } = Astro.props
+const en = feature.en
+const APP_URL = 'https://app.ankorax.com'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${en.title} — AnkoraX`}
+      description={en.tagline}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": en.title,
+      "description": en.tagline,
+      "url": `https://ankorax.com/features/${feature.slug}`
+    })} />
+  </head>
+  <body>
+    <Nav />
+    <main class="fd">
+      <div class="wrap fd-wrap">
+        <a href="/#features" class="fd-back" data-i18n="fd.back">← All features</a>
+        <div class="fd-icon"><i class={`ti ${feature.icon}`} aria-hidden="true"></i></div>
+        <h1 class="fd-title" data-fd="title">{en.title}</h1>
+        <p class="fd-tagline" data-fd="tagline">{en.tagline}</p>
+
+        <div class="fd-sections" id="fd-sections">
+          {en.sections.map((s, i) => (
+            <div class="fd-section">
+              <h2 data-fd={`s${i}t`}>{s[0]}</h2>
+              <p data-fd={`s${i}d`}>{s[1]}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="fd-cta">
+          <h3 data-i18n="fd.ctaHead">Ready to try it?</h3>
+          <a href={`${APP_URL}/signup`} class="btn btn-primary btn-lg" data-i18n="nav.start">Start free</a>
+        </div>
+      </div>
+    </main>
+    <Footer />
+
+    <script define:vars={{ FEATURE: feature, STRINGS, slug: feature.slug }}>
+      const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj)
+      const applyLang = (lang) => {
+        const data = FEATURE[lang] || FEATURE.en
+        const setFd = (key, val) => { const el = document.querySelector(`[data-fd="${key}"]`); if (el && val != null) el.textContent = val }
+        setFd('title', data.title); setFd('tagline', data.tagline)
+        data.sections.forEach((s, i) => { setFd(`s${i}t`, s[0]); setFd(`s${i}d`, s[1]) })
+        const dict = STRINGS[lang]
+        if (dict) {
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = get(dict, el.getAttribute('data-i18n'))
+            if (typeof v === 'string') el.textContent = v
+          })
+        }
+        // back + cta extra strings
+        const extra = { en: { back: '← All features', ctaHead: 'Ready to try it?' }, my: { back: '← Feature အားလုံး', ctaHead: 'စမ်းသုံးကြည့်မလား?' }, th: { back: '← ฟีเจอร์ทั้งหมด', ctaHead: 'พร้อมลองหรือยัง?' } }
+        const ex = extra[lang] || extra.en
+        const back = document.querySelector('.fd-back'); if (back) back.textContent = ex.back
+        const ctaH = document.querySelector('.fd-cta h3'); if (ctaH) ctaH.textContent = ex.ctaHead
+        document.documentElement.lang = lang
+        document.querySelectorAll('#lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang))
+        try { localStorage.setItem('lang', lang) } catch (e) {}
+      }
+      document.querySelectorAll('#lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)))
+      const saved = (() => { try { return localStorage.getItem('lang') } catch (e) { return null } })()
+      if (saved && saved !== 'en') applyLang(saved)
+    </script>
+
+    <style>
+      .fd { padding-top: 120px; padding-bottom: 80px; }
+      .fd-wrap { max-width: 760px; }
+      .fd-back { font-size: 14px; color: var(--text-3); font-weight: 500; }
+      .fd-back:hover { color: var(--brand-purple-text); }
+      .fd-icon { width: 56px; height: 56px; border-radius: 14px; background: var(--brand-purple-soft); display: flex; align-items: center; justify-content: center; color: var(--brand-purple-text); font-size: 28px; margin: 28px 0 20px; }
+      .fd-title { font-size: clamp(30px, 5vw, 44px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); line-height: 1.1; }
+      .fd-tagline { font-size: 19px; color: var(--text-2); margin-top: 14px; line-height: 1.5; }
+      .fd-sections { margin-top: 44px; display: flex; flex-direction: column; gap: 32px; }
+      .fd-section { padding-left: 20px; border-left: 3px solid var(--brand-purple); }
+      .fd-section h2 { font-size: 20px; font-weight: 600; color: var(--text-1); margin-bottom: 8px; }
+      .fd-section p { font-size: 16px; line-height: 1.7; color: var(--text-2); }
+      .fd-cta { margin-top: 56px; padding: 36px; border-radius: 16px; background: var(--bg-2); border: 1px solid var(--line); text-align: center; }
+      .fd-cta h3 { font-size: 22px; font-weight: 600; color: var(--text-1); margin-bottom: 20px; }
+    </style>
+  </body>
+</html>
