@@ -22,6 +22,22 @@ const steps = [
 
 const title = 'AnkoraX — Invoicing & Finance for Small Business'
 const description = 'AnkoraX gives small businesses one place to send invoices, track every transaction, and manage their team. Create invoices, run double-entry books, and get paid — no spreadsheets.'
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AnkoraX",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "description": description,
+  "url": "https://ankorax.com",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "MMK",
+    "description": "Free trial - 10 documents"
+  }
+})
 ---
 
 <!doctype html>
@@ -58,21 +74,7 @@ const description = 'AnkoraX gives small businesses one place to send invoices, 
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <!-- Structured data: SoftwareApplication -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "AnkoraX",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "description": description,
-      "url": "https://ankorax.com",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "MMK",
-        "description": "Free trial — 10 documents"
-      }
-    })} />
+    <script type="application/ld+json" set:html={jsonLd} />
   </head>
 
   <body>
