@@ -121,11 +121,13 @@ img { max-width: 100%; display: block; }
 
 /* features */
 .feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
-.feat-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px; transition: all 0.2s ease; }
+.feat-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px; transition: all 0.2s ease; display: flex; flex-direction: column; }
 .feat-card:hover { border-color: var(--brand-purple); transform: translateY(-3px); box-shadow: 0 20px 40px -28px rgba(110,50,210,0.35); }
 .feat-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--brand-purple-soft); display: flex; align-items: center; justify-content: center; color: var(--brand-purple-text); font-size: 21px; margin-bottom: 16px; }
 .feat-card h3 { font-size: 18px; font-weight: 600; color: var(--text-1); margin-bottom: 8px; }
-.feat-card p { font-size: 14.5px; line-height: 1.6; color: var(--text-2); }
+.feat-card p { font-size: 14.5px; line-height: 1.6; color: var(--text-2); flex: 1; }
+.feat-more { display: inline-flex; align-items: center; gap: 5px; margin-top: 16px; font-size: 13.5px; font-weight: 500; color: var(--brand-purple-text); }
+.feat-card:hover .feat-more { gap: 8px; }
 
 /* workflow */
 .flow { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
