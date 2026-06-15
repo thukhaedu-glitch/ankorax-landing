@@ -1,0 +1,91 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Nav from '../components/Nav.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/global.css'
+
+const { frontmatter } = Astro.props
+const { title, description, pubDate, updatedDate, author, tags, image } = frontmatter
+
+const fmtDate = (d) => new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${title} — AnkoraX Blog`}
+      description={description}
+      image={image}
+      type="article"
+      pubDate={pubDate}
+      author={author}
+    />
+    <!-- Article structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": title,
+      "description": description,
+      "author": { "@type": "Organization", "name": author },
+      "datePublished": new Date(pubDate).toISOString(),
+      "publisher": { "@type": "Organization", "name": "AnkoraX", "logo": { "@type": "ImageObject", "url": "https://ankorax.com/ankora_x_logo_2.png" } }
+    })} />
+  </head>
+  <body>
+    <Nav />
+    <article class="post">
+      <div class="wrap post-wrap">
+        <a href="/blog" class="post-back">← All articles</a>
+        <div class="post-tags">
+          {tags && tags.map((t) => <span class="post-tag">{t}</span>)}
+        </div>
+        <h1 class="post-title">{title}</h1>
+        <div class="post-meta">
+          <span>{author}</span>
+          <span class="post-dot">·</span>
+          <time datetime={new Date(pubDate).toISOString()}>{fmtDate(pubDate)}</time>
+          {updatedDate && <><span class="post-dot">·</span><span>Updated {fmtDate(updatedDate)}</span></>}
+        </div>
+        <div class="post-body">
+          <slot />
+        </div>
+        <div class="post-cta">
+          <h3>Ready to put this into practice?</h3>
+          <p>Start sending invoices and tracking your finances with AnkoraX — free.</p>
+          <a href="https://app.ankorax.com/signup" class="btn btn-accent btn-lg">Start free</a>
+        </div>
+      </div>
+    </article>
+    <Footer />
+
+    <style>
+      .post { padding-top: 110px; padding-bottom: 80px; }
+      .post-wrap { max-width: 720px; }
+      .post-back { font-family: var(--font-mono); font-size: 13px; color: var(--text-3); }
+      .post-back:hover { color: var(--ink); }
+      .post-tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 28px 0 14px; }
+      .post-tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 4px 10px; border-radius: 6px; }
+      .post-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(30px, 5vw, 46px); line-height: 1.1; letter-spacing: -0.015em; color: var(--ink); }
+      .post-meta { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-3); margin-top: 18px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
+      .post-dot { color: var(--line-strong); }
+
+      .post-body { margin-top: 36px; font-size: 17px; line-height: 1.75; color: var(--text-1); }
+      .post-body :global(h2) { font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--ink); margin: 44px 0 16px; letter-spacing: -0.01em; }
+      .post-body :global(h3) { font-family: var(--font-display); font-weight: 600; font-size: 20px; color: var(--ink); margin: 32px 0 12px; }
+      .post-body :global(p) { margin-bottom: 20px; }
+      .post-body :global(ul), .post-body :global(ol) { margin: 0 0 20px; padding-left: 24px; }
+      .post-body :global(li) { margin-bottom: 8px; }
+      .post-body :global(a) { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+      .post-body :global(strong) { font-weight: 600; color: var(--ink); }
+      .post-body :global(blockquote) { border-left: 3px solid var(--accent); padding: 4px 0 4px 20px; margin: 24px 0; color: var(--text-2); font-style: italic; }
+      .post-body :global(code) { font-family: var(--font-mono); font-size: 14px; background: var(--paper-2); padding: 2px 6px; border-radius: 4px; }
+      .post-body :global(img) { max-width: 100%; border-radius: 12px; margin: 24px 0; }
+      .post-body :global(hr) { border: none; border-top: 1px solid var(--line); margin: 36px 0; }
+
+      .post-cta { margin-top: 56px; padding: 36px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--paper-2); text-align: center; }
+      .post-cta h3 { font-family: var(--font-display); font-weight: 600; font-size: 22px; color: var(--ink); margin-bottom: 8px; }
+      .post-cta p { font-size: 15px; color: var(--text-2); margin-bottom: 22px; }
+    </style>
+  </body>
+</html>
