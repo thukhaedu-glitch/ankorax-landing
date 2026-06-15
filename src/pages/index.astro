@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro'
 import Footer from '../components/Footer.astro'
 import Pricing from '../components/Pricing.jsx'
 import { STRINGS } from '../strings.js'
+import { FEATURES } from '../features.js'
 import '../styles/global.css'
 
 const APP_URL = 'https://app.ankorax.com'
@@ -109,11 +110,12 @@ const description = 'AnkoraX gives small businesses one place to send invoices, 
         </div>
         <div class="feat-grid">
           {en.features.items.map((it, i) => (
-            <div class="feat-card">
+            <a href={`/features/${FEATURES[i].slug}`} class="feat-card">
               <div class="feat-icon"><i class={`ti ${it[0]}`} aria-hidden="true"></i></div>
               <h3 data-i18n={`features.items.${i}.1`}>{it[1]}</h3>
               <p data-i18n={`features.items.${i}.2`}>{it[2]}</p>
-            </div>
+              <span class="feat-more"><span data-i18n="features.learnMore">Learn more</span> <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+            </a>
           ))}
         </div>
       </div>
