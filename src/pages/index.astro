@@ -1,1 +1,238 @@
+---
+import Pricing from '../components/Pricing.jsx'
+import '../styles/global.css'
 
+const APP_URL = 'https://app.ankorax.com'
+const TEAM_URL = 'https://team.ankorax.com'
+
+const features = [
+  { t: 'Invoices & Quotations', d: 'Create, send, and track invoices and quotes. Share a public link, record payments, and convert a quote to an invoice in one tap.', tag: 'Documents' },
+  { t: 'Real double-entry finance', d: 'Chart of accounts, journal entries, bank reconciliation, and bills payable — proper accounting, not a glorified calculator.', tag: 'Finance' },
+  { t: 'Customers & projects', d: 'Keep every client, contact, and project in one place, linked to the documents and payments that belong to them.', tag: 'CRM' },
+  { t: 'Reports that explain themselves', d: 'Income vs. expense, balances, and a custom report builder — see where the business actually stands.', tag: 'Insight' },
+  { t: 'Your team, with roles', d: 'Invite members as Owner, Admin, or Staff. Everyone sees what they should, and every action is logged.', tag: 'Teams' },
+  { t: 'Verifiable documents', d: 'Every invoice and receipt carries a QR code, so clients can confirm it is genuine in seconds.', tag: 'Trust' },
+]
+
+const steps = [
+  ['01', 'Create', 'Draft an invoice or quote with your branding, line items, and terms.'],
+  ['02', 'Send & get paid', 'Share a link or PDF. Record the payment and the books update themselves.'],
+  ['03', 'See the whole picture', 'Reports, balances, and your team — all reconciled in real time.'],
+]
+
+const title = 'AnkoraX — Invoicing & Finance for Small Business'
+const description = 'AnkoraX gives small businesses one place to send invoices, track every transaction, and manage their team. Create invoices, run double-entry books, and get paid — no spreadsheets.'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/ankora_x_logo_2.png" />
+
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href="https://ankorax.com/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="invoicing software, online invoice, small business accounting, quotation software, double-entry finance, invoice maker, billing software, SaaS invoicing" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ankorax.com/" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://ankorax.com/og-image.png" />
+    <meta property="og:site_name" content="AnkoraX" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://ankorax.com/og-image.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Structured data: SoftwareApplication -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AnkoraX",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": description,
+      "url": "https://ankorax.com",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "MMK",
+        "description": "Free trial — 10 documents"
+      }
+    })} />
+  </head>
+
+  <body>
+    <!-- ===== NAV ===== -->
+    <nav id="nav">
+      <div class="wrap nav-inner">
+        <a href="#top" class="brand">
+          <img src="/ankora_x_logo_2.png" alt="AnkoraX logo" width="32" height="32" style="border-radius:8px" />
+          <span class="brand-name">AnkoraX</span>
+        </a>
+        <div class="nav-right">
+          <div class="nav-links">
+            <a href="#features" class="navlink">Features</a>
+            <a href="#pricing" class="navlink">Pricing</a>
+            <a href={TEAM_URL} class="navlink">For Teams</a>
+          </div>
+          <div class="nav-cta">
+            <a href={`${APP_URL}/login`} class="nav-login">Log in</a>
+            <a href={`${APP_URL}/signup`} class="btn btn-primary nav-start">Start free</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <header id="top" class="hero">
+      <div class="hero-grid-bg"></div>
+      <div class="wrap hero-inner">
+        <span class="eyebrow">Invoicing · Finance · Teams</span>
+        <h1 class="hero-title">
+          The books, the invoices,<br />and the team —<br />
+          <span class="hero-accent">balanced.</span>
+        </h1>
+        <p class="hero-sub">
+          AnkoraX gives small businesses one place to send invoices, track every transaction, and run the whole operation with their team — no spreadsheets, no guesswork.
+        </p>
+        <div class="hero-btns">
+          <a href={`${APP_URL}/signup`} class="btn btn-accent btn-lg">Start free — 10 docs</a>
+          <a href="#pricing" class="btn btn-ghost btn-lg">See pricing</a>
+        </div>
+        <p class="hero-note">No card required · Set up in minutes</p>
+
+        <div class="stat-strip">
+          {[['Invoices','Sent & tracked'],['Finance','Double-entry books'],['Quotes','To invoice in a tap'],['Team','Roles & permissions']].map(([big, small]) => (
+            <div class="stat-cell">
+              <div class="stat-big">{big}</div>
+              <div class="stat-small">{small}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== TRUST ===== -->
+    <section class="trust">
+      <div class="wrap">
+        <span class="trust-text">BUILT FOR FREELANCERS, AGENCIES & GROWING SHOPS</span>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features" class="section">
+      <div class="wrap">
+        <span class="eyebrow">What you get</span>
+        <h2 class="h-section feat-head">Everything the back office needs, nothing it doesn't.</h2>
+        <div class="feat-grid">
+          {features.map((it) => (
+            <div class="feat-card">
+              <div class="feat-tag">{it.tag}</div>
+              <h3 class="feat-title">{it.t}</h3>
+              <p class="feat-desc">{it.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WORKFLOW ===== -->
+    <section class="section-tight">
+      <div class="wrap">
+        <div class="flow-panel">
+          <span class="eyebrow eyebrow-light">How it flows</span>
+          <h2 class="flow-head">From blank page to balanced books.</h2>
+          <div class="flow-grid">
+            {steps.map(([n, t, d]) => (
+              <div>
+                <div class="flow-num">{n}</div>
+                <h3 class="flow-step-t">{t}</h3>
+                <p class="flow-step-d">{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PRICING (React island, dynamic) ===== -->
+    <section id="pricing" class="section">
+      <div class="wrap">
+        <div class="pricing-head">
+          <span class="eyebrow eyebrow-center">Pricing</span>
+          <h2 class="h-section">Plans that grow with the work.</h2>
+          <p class="pricing-sub">Start free. Upgrade when the volume calls for it. Prices in MMK, billed per month.</p>
+        </div>
+        <Pricing client:visible />
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section-tight">
+      <div class="wrap">
+        <div class="cta-panel">
+          <h2 class="cta-head">Put the back office on autopilot.</h2>
+          <p class="cta-sub">Join the businesses running invoices, finance, and their team on AnkoraX.</p>
+          <div class="cta-btns">
+            <a href={`${APP_URL}/signup`} class="btn btn-accent btn-lg">Start free</a>
+            <a href={`${APP_URL}/login`} class="btn btn-ghost btn-lg">Log in</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="foot-top">
+          <div class="foot-brand">
+            <div class="brand" style="margin-bottom:12px">
+              <img src="/ankora_x_logo_2.png" alt="AnkoraX" width="28" height="28" style="border-radius:7px" />
+              <span class="brand-name" style="font-size:18px">AnkoraX</span>
+            </div>
+            <p class="foot-tagline">Invoicing, finance, and team management for modern small businesses.</p>
+          </div>
+          <div class="foot-cols">
+            <div class="foot-col">
+              <div class="foot-col-title">Product</div>
+              <a href="#features" class="foot-link">Features</a>
+              <a href="#pricing" class="foot-link">Pricing</a>
+              <a href={`${APP_URL}/login`} class="foot-link">Log in</a>
+            </div>
+            <div class="foot-col">
+              <div class="foot-col-title">For teams</div>
+              <a href={TEAM_URL} class="foot-link">Sales CRM</a>
+              <a href={`${APP_URL}/signup`} class="foot-link">Get started</a>
+            </div>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span class="foot-mono">© 2026 AnkoraX. All rights reserved.</span>
+          <span class="foot-mono">ankorax.com</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // nav scroll state
+      const nav = document.getElementById('nav')
+      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20)
+      window.addEventListener('scroll', onScroll)
+      onScroll()
+    </script>
+  </body>
+</html>
