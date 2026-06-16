@@ -1,19 +1,31 @@
-<div class="preview">
+<header id="top" class="hero">
+      <div class="hero-glow"></div>
+      <div class="wrap hero-inner">
+        <span class="pill" data-i18n="hero.pill">{en.hero.pill}</span>
+        <h1 data-i18n="hero.title">{en.hero.title}</h1>
+        <p class="hero-sub" data-i18n="hero.sub">{en.hero.sub}</p>
+        <div class="hero-btns">
+          <a href={`${APP_URL}/signup`} class="btn btn-primary btn-lg" data-i18n="hero.cta1">{en.hero.cta1}</a>
+          <a href="#pricing" class="btn btn-ghost btn-lg" data-i18n="hero.cta2">{en.hero.cta2}</a>
+        </div>
+        <p class="hero-note" data-i18n="hero.note">{en.hero.note}</p>
+
+        <div class="preview">
           <div class="preview-bar"><span></span><span></span><span></span></div>
           
           <div class="pv-main">
             <div class="pv-grid-inner">
               <div class="pv-data-box">
                 <div class="pv-label">Total Revenue</div>
-                <div class="pv-big" style="font-size: 28px; font-weight: 700;">2,450,000 <span style="font-size:14px;color:var(--text-3);font-weight:500">MMK</span></div>
+                <div class="pv-big" style="font-size: 28px; font-weight: 700; margin-top: 4px;">2,450,000 <span style="font-size:14px;color:var(--text-3);font-weight:500">MMK</span></div>
               </div>
               <div class="pv-data-box">
                 <div class="pv-label">Outstanding</div>
-                <div class="pv-big" style="font-size: 28px; font-weight: 700;">850,000 <span style="font-size:14px;color:var(--text-3);font-weight:500">MMK</span></div>
+                <div class="pv-big" style="font-size: 28px; font-weight: 700; margin-top: 4px;">850,000 <span style="font-size:14px;color:var(--text-3);font-weight:500">MMK</span></div>
               </div>
               <div class="pv-data-box">
                 <div class="pv-label">Total Clients</div>
-                <div class="pv-big" style="font-size: 28px; font-weight: 700;">142</div>
+                <div class="pv-big" style="font-size: 28px; font-weight: 700; margin-top: 4px;">142</div>
               </div>
             </div>
 
@@ -23,7 +35,7 @@
               <div style="flex:1; height:64%; background:var(--brand-purple-soft); border-radius: 6px 6px 0 0;"></div>
               <div style="flex:1; height:50%; background:var(--brand-purple-soft); border-radius: 6px 6px 0 0;"></div>
               <div style="flex:1; height:88%; background:var(--brand-grad); border-radius: 6px 6px 0 0; position:relative;">
-                 <span style="position:absolute; top:-28px; left:50%; transform:translateX(-50%); background:#1a1d2e; color:#fff; padding:4px 8px; font-size:11px; border-radius:4px; font-weight:600;">This Month</span>
+                 <span style="position:absolute; top:-28px; left:50%; transform:translateX(-50%); background:#1a1d2e; color:#fff; padding:4px 8px; font-size:11px; border-radius:4px; font-weight:600; white-space:nowrap;">This Month</span>
               </div>
               <div style="flex:1; height:70%; background:var(--brand-purple-soft); border-radius: 6px 6px 0 0;"></div>
               <div style="flex:1; height:58%; background:var(--brand-purple-soft); border-radius: 6px 6px 0 0;"></div>
@@ -47,3 +59,5 @@
             </div>
           </div>
         </div>
+      </div>
+    </header>
