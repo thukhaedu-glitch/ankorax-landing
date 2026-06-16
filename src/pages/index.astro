@@ -1,4 +1,62 @@
-<header id="top" class="hero">
+---
+import BaseHead from '../components/BaseHead.astro'
+import Footer from '../components/Footer.astro'
+import Pricing from '../components/Pricing.jsx'
+import { STRINGS } from '../strings.js'
+import { FEATURES } from '../features.js'
+import '../styles/global.css'
+
+const APP_URL = 'https://app.ankorax.com'
+const TEAM_URL = 'https://team.ankorax.com'
+const en = STRINGS.en
+
+const title = 'AnkoraX — Invoicing & Finance for Small Business'
+const description = 'AnkoraX gives small businesses one place to send invoices, track every transaction, and manage their team. Invoicing, double-entry finance, and quotations — no spreadsheets.'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AnkoraX",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": description,
+      "url": "https://ankorax.com",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "MMK" }
+    })} />
+  </head>
+  <body>
+    <nav id="nav">
+      <div class="wrap nav-inner">
+        <a href="#top" class="brand">
+          <img src="/ankora_x_logo_2.png" alt="AnkoraX logo" width="28" height="28" />
+          <span class="brand-name">AnkoraX</span>
+        </a>
+        <div class="nav-right">
+          <div class="nav-links">
+            <a href="#features" class="navlink" data-i18n="nav.features">{en.nav.features}</a>
+            <a href="#pricing" class="navlink" data-i18n="nav.pricing">{en.nav.pricing}</a>
+            <a href="/blog" class="navlink" data-i18n="nav.blog">{en.nav.blog}</a>
+            <a href={TEAM_URL} class="navlink" data-i18n="nav.teams">{en.nav.teams}</a>
+          </div>
+          <div class="nav-cta">
+            <div class="lang" id="lang">
+              <button data-lang="en" class="active">EN</button>
+              <button data-lang="my">MY</button>
+              <button data-lang="th">TH</button>
+            </div>
+            <a href={`${APP_URL}/login`} class="nav-login" data-i18n="nav.login">{en.nav.login}</a>
+            <a href={`${APP_URL}/signup`} class="btn btn-primary nav-start" data-i18n="nav.start">{en.nav.start}</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <header id="top" class="hero">
       <div class="hero-glow"></div>
       <div class="wrap hero-inner">
         <span class="pill" data-i18n="hero.pill">{en.hero.pill}</span>
@@ -61,3 +119,97 @@
         </div>
       </div>
     </header>
+
+    <section class="trust">
+      <div class="wrap"><span class="trust-text" data-i18n="trust">{en.trust}</span></div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="pill" data-i18n="features.head-pill">What you get</span>
+          <h2 class="h-section" data-i18n="features.head">{en.features.head}</h2>
+          <p data-i18n="features.sub">{en.features.sub}</p>
+        </div>
+        <div class="feat-grid">
+          {en.features.items.map((it, i) => (
+            <a href={`/features/${FEATURES[i].slug}`} class="feat-card">
+              <div class="feat-icon"><i class={`ti ${it[0]}`} aria-hidden="true"></i></div>
+              <h3 data-i18n={`features.items.${i}.1`}>{it[1]}</h3>
+              <p data-i18n={`features.items.${i}.2`}>{it[2]}</p>
+              <span class="feat-more"><span data-i18n="features.learnMore">Learn more</span> <i class="ti ti-arrow-right" aria-hidden="true"></i></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="flow section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="h-section" data-i18n="flow.head">{en.flow.head}</h2>
+        </div>
+        <div class="flow-grid">
+          {en.flow.steps.map((s, i) => (
+            <div class="flow-step">
+              <div class="flow-num">{String(i + 1).padStart(2, '0')}</div>
+              <h3 data-i18n={`flow.steps.${i}.0`}>{s[0]}</h3>
+              <p data-i18n={`flow.steps.${i}.1`}>{s[1]}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="pill" data-i18n="pricing.pill">Pricing</span>
+          <h2 class="h-section" data-i18n="pricing.head">{en.pricing.head}</h2>
+          <p data-i18n="pricing.sub">{en.pricing.sub}</p>
+        </div>
+        <Pricing client:visible />
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="wrap">
+        <div class="cta-panel">
+          <h2 data-i18n="cta.head">{en.cta.head}</h2>
+          <p data-i18n="cta.sub">{en.cta.sub}</p>
+          <div class="cta-btns">
+            <a href={`${APP_URL}/signup`} class="btn btn-lg btn-white" data-i18n="cta.b1">{en.cta.b1}</a>
+            <a href={`${APP_URL}/login`} class="btn btn-lg btn-outline" data-i18n="cta.b2">{en.cta.b2}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+
+    <script define:vars={{ STRINGS }}>
+      // nav scroll
+      const nav = document.getElementById('nav')
+      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20)
+      window.addEventListener('scroll', onScroll);
+      onScroll()
+
+      // language switch
+      const get = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj)
+      const applyLang = (lang) => {
+        const dict = STRINGS[lang];
+        if (!dict) return
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const val = get(dict, el.getAttribute('data-i18n'))
+          if (typeof val === 'string') el.textContent = val
+        })
+        document.documentElement.lang = lang
+        document.querySelectorAll('#lang button').forEach(b => b.classList.toggle('active', b.dataset.lang === lang))
+        try { localStorage.setItem('lang', lang) } catch (e) {}
+      }
+      document.querySelectorAll('#lang button').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)))
+      const saved = (() => { try { return localStorage.getItem('lang') } catch (e) { return null } })()
+      if (saved && saved !== 'en') applyLang(saved)
+    </script>
+  </body>
+</html>
