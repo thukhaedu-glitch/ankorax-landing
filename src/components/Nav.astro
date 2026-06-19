@@ -1,37 +1,43 @@
 ---
 const APP_URL = 'https://app.ankorax.com'
 const TEAM_URL = 'https://team.ankorax.com'
-// home links point to homepage anchors
-const home = '/'
 ---
-<nav id="nav">
+<nav id="nav" class="site-nav">
   <div class="wrap nav-inner">
-    <a href={home} class="brand">
-      <img src="/ankora_x_logo_2.png" alt="AnkoraX logo" width="32" height="32" style="border-radius:8px" />
-      <span class="brand-name">AnkoraX</span>
+    <a href="/" class="brand" aria-label="AnkoraX home">
+      <img src="/ankora_x_logo_2.png" alt="AnkoraX logo" width="34" height="34" />
+      <span>AnkoraX</span>
     </a>
-    <div class="nav-right">
-      <div class="nav-links">
-        <a href={`${home}#features`} class="navlink">Features</a>
-        <a href={`${home}#pricing`} class="navlink">Pricing</a>
-        <a href="/blog" class="navlink">Blog</a>
-        <a href={TEAM_URL} class="navlink">For Teams</a>
-      </div>
-      <div class="nav-cta">
-        <div class="lang" id="lang">
-          <button data-lang="en" class="active">EN</button>
-          <button data-lang="my">MY</button>
-          <button data-lang="th">TH</button>
-        </div>
-        <a href={`${APP_URL}/login`} class="nav-login">Log in</a>
-        <a href={`${APP_URL}/signup`} class="btn btn-primary nav-start">Start free</a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+      <a href="/#features">Features</a>
+      <a href="/#process">How it works</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/blog">Resources</a>
+      <a href={TEAM_URL}>Teams</a>
+      <div class="nav-actions">
+        <a href={`${APP_URL}/login`} class="login-link">Log in</a>
+        <a href={`${APP_URL}/signup`} class="btn btn-primary">Start free</a>
       </div>
     </div>
   </div>
 </nav>
+
 <script>
   const nav = document.getElementById('nav')
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20)
-  window.addEventListener('scroll', onScroll)
-  onScroll()
+  const toggle = document.getElementById('navToggle')
+  const menu = document.getElementById('navMenu')
+
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 12)
+  })
+
+  toggle?.addEventListener('click', () => {
+    const open = menu.classList.toggle('open')
+    toggle.setAttribute('aria-expanded', String(open))
+  })
 </script>
