@@ -1,74 +1,143 @@
-import { useState, useEffect } from 'react'
-import { db } from '../firebase'
-import { doc, getDoc } from 'firebase/firestore'
-import { STRINGS } from '../strings.js'
+import { useEffect, useState } from "react";
 
-const APP_URL = 'https://app.ankorax.com'
-
-const FALLBACK = [
-  { key: 'free', label: 'Free Trial', price: 0, popular: false, featureList: ['Core modules', 'Draft invoices & quotes', 'Basic dashboards'] },
-  { key: 'starter', label: 'Starter', price: 49900, popular: false, featureList: ['Everything in Free', '100 documents / month', 'Standard support'] },
-  { key: 'growth', label: 'Growth', price: 69900, popular: true, featureList: ['Full finance module', 'Bank reconciliation', '500 documents / month', 'Priority support'] },
-  { key: 'business', label: 'Business', price: 89900, popular: false, featureList: ['Everything in Growth', 'Custom report builder', 'Audit logs', 'Dedicated lead'] },
-]
-
-const fmtNum = (n) => Number(n).toLocaleString('en-US')
+const fallbackPlans = [
+  {
+    id: "starter",
+    name: "Starter",
+    price: "Free",
+    description: "Perfect for freelancers and new businesses.",
+    features: [
+      "Up to 50 invoices",
+      "Basic quotations",
+      "Expense tracking",
+      "Dashboard overview",
+      "Email support",
+    ],
+    cta: "Start Free",
+    popular: false,
+  },
+  {
+    id: "business",
+    name: "Business",
+    price: "$9",
+    period: "/month",
+    description: "For growing SMEs that need more control.",
+    features: [
+      "Unlimited invoices",
+      "Unlimited quotations",
+      "Advanced reports",
+      "Client management",
+      "Expense management",
+      "Team members",
+      "Priority support",
+    ],
+    cta: "Get Started",
+    popular: true,
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    price: "Custom",
+    description: "For larger organizations and teams.",
+    features: [
+      "Everything in Business",
+      "Custom roles & permissions",
+      "Multi-branch support",
+      "Dedicated onboarding",
+      "Custom integrations",
+      "Account manager",
+    ],
+    cta: "Contact Sales",
+    popular: false,
+  },
+];
 
 export default function Pricing() {
-  const [plans, setPlans] = useState(FALLBACK)
-  const [loading, setLoading] = useState(true)
-  const [lang, setLang] = useState('en')
+  const [plans, setPlans] = useState(fallbackPlans);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    try { const l = localStorage.getItem('lang'); if (l) setLang(l) } catch (e) {}
-    const onLang = () => { try { const l = localStorage.getItem('lang'); if (l) setLang(l) } catch (e) {} }
-    window.addEventListener('storage', onLang)
-    const interval = setInterval(onLang, 400)
-
-    const load = async () => {
+    const loadPricing = async () => {
       try {
-        const snap = await getDoc(doc(db, 'config', 'plans'))
-        if (snap.exists() && Array.isArray(snap.data().plans)) {
-          const active = snap.data().plans.filter(p => p.active !== false)
-          if (active.length) setPlans(active)
-        }
-      } catch (e) {}
-      setLoading(false)
-    }
-    load()
-    return () => { window.removeEventListener('storage', onLang); clearInterval(interval) }
-  }, [])
+        setLoading(true);
 
-  const t = (STRINGS[lang] || STRINGS.en).pricing
-  const popularLabel = { en: 'Most popular', my: 'လူကြိုက်များ', th: 'ยอดนิยม' }[lang] || 'Most popular'
+        // Firebase pricing fetch
+        // Keep your existing Firebase code here if already connected.
+        // Example:
+        //
+        // const snapshot = await getDocs(collection(db, "pricing"));
+        // const data = snapshot.docs.map(doc => ({
+        //   id: doc.id,
+        //   ...doc.data()
+        // }));
+        //
+        // if(data.length) setPlans(data);
+
+      } catch (error) {
+        console.log("Using fallback pricing", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPricing();
+  }, []);
 
   return (
-    <>
-      <div className="price-grid">
-        {plans.map((p) => {
-          const popular = p.popular
-          return (
-            <div key={p.key} className={popular ? 'price-card pop' : 'price-card'}>
-              {popular && <span className="price-badge">★ {popularLabel}</span>}
-              <div className="price-name">{p.label}</div>
-              <div className="price-amt">
-                <span className="price-num">{p.price === 0 ? t.free : fmtNum(p.price)}</span>
-                {p.price > 0 && <span className="price-unit">{t.perMonth}</span>}
+    <section className="pricing-wrapper">
+      <div className="pricing-grid">
+        {plans.map((plan) => (
+          <div
+            key={plan.id}
+            className={`pricing-card ${
+              plan.popular ? "pricing-card-popular" : ""
+            }`}
+          >
+            {plan.popular && (
+              <div className="pricing-badge">
+                Most Popular
               </div>
-              <div className="price-line"></div>
-              <ul className="price-feats">
-                {(p.featureList || []).map((f, i) => (
-                  <li key={i}><span className="tick">✓</span>{f}</li>
-                ))}
-              </ul>
-              <a href={`${APP_URL}/signup`} className={popular ? 'btn btn-primary' : 'btn btn-ghost'} style={{ marginTop: 24, width: '100%' }}>
-                {p.price === 0 ? t.startFree : `${t.choose} ${p.label}`}
-              </a>
+            )}
+
+            <div className="pricing-header">
+              <h3>{plan.name}</h3>
+
+              <div className="pricing-price">
+                {plan.price}
+                {plan.period && (
+                  <span>{plan.period}</span>
+                )}
+              </div>
+
+              <p>{plan.description}</p>
             </div>
-          )
-        })}
+
+            <ul className="pricing-features">
+              {plan.features.map((feature, index) => (
+                <li key={index}>
+                  ✓ {feature}
+                </li>
+              ))}
+            </ul>
+
+            <button
+              className={
+                plan.popular
+                  ? "pricing-btn pricing-btn-primary"
+                  : "pricing-btn"
+              }
+            >
+              {plan.cta}
+            </button>
+          </div>
+        ))}
       </div>
-      <p className="price-note">{loading ? t.loading : t.note}</p>
-    </>
-  )
+
+      {loading && (
+        <div className="pricing-loading">
+          Loading pricing...
+        </div>
+      )}
+    </section>
+  );
 }
