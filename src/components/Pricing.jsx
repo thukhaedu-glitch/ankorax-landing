@@ -54,90 +54,50 @@ const fallbackPlans = [
 
 export default function Pricing() {
   const [plans, setPlans] = useState(fallbackPlans);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const loadPricing = async () => {
-      try {
-        setLoading(true);
-
-        // Firebase pricing fetch
-        // Keep your existing Firebase code here if already connected.
-        // Example:
-        //
-        // const snapshot = await getDocs(collection(db, "pricing"));
-        // const data = snapshot.docs.map(doc => ({
-        //   id: doc.id,
-        //   ...doc.data()
-        // }));
-        //
-        // if(data.length) setPlans(data);
-
-      } catch (error) {
-        console.log("Using fallback pricing", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadPricing();
+    setPlans(fallbackPlans);
   }, []);
 
   return (
-    <section className="pricing-wrapper">
+    <div className="pricing-wrapper">
       <div className="pricing-grid">
         {plans.map((plan) => (
-          <div
+          <article
             key={plan.id}
-            className={`pricing-card ${
-              plan.popular ? "pricing-card-popular" : ""
-            }`}
+            className={`pricing-card ${plan.popular ? "pricing-card-popular" : ""}`}
           >
-            {plan.popular && (
-              <div className="pricing-badge">
-                Most Popular
-              </div>
-            )}
+            {plan.popular && <div className="pricing-badge">Most Popular</div>}
 
             <div className="pricing-header">
               <h3>{plan.name}</h3>
 
               <div className="pricing-price">
                 {plan.price}
-                {plan.period && (
-                  <span>{plan.period}</span>
-                )}
+                {plan.period && <span>{plan.period}</span>}
               </div>
 
               <p>{plan.description}</p>
             </div>
 
             <ul className="pricing-features">
-              {plan.features.map((feature, index) => (
-                <li key={index}>
-                  ✓ {feature}
+              {plan.features.map((feature) => (
+                <li key={feature}>
+                  <span>✓</span>
+                  {feature}
                 </li>
               ))}
             </ul>
 
             <button
-              className={
-                plan.popular
-                  ? "pricing-btn pricing-btn-primary"
-                  : "pricing-btn"
-              }
+              className={`pricing-btn ${plan.popular ? "pricing-btn-primary" : ""}`}
+              type="button"
             >
               {plan.cta}
             </button>
-          </div>
+          </article>
         ))}
       </div>
-
-      {loading && (
-        <div className="pricing-loading">
-          Loading pricing...
-        </div>
-      )}
-    </section>
+    </div>
   );
 }
